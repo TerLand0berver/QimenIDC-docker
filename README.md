@@ -16,6 +16,18 @@
 
 本项目是一个开源、免费、云原生的多云管理及混合云融合系统，它致力于简化多云环境下的资源管理和操作，提高管理多云的效率。
 
+## Docker镜像
+
+你可以直接使用Docker Hub上的镜像快速部署QimenIDC：
+
+```bash
+# 拉取最新版本
+docker pull teraccc/qimenidc-server:latest
+
+# 或者拉取特定版本
+docker pull teraccc/qimenidc-server:v1.0.0
+```
+
 ## 主要特性
 
 - **多云管理**：通过隐藏不同云服务商的数据模型和 API 差异，QimenIDC 提供了一套统一的 API，让用户能够像使用单一云平台一样访问多个云服务商。
