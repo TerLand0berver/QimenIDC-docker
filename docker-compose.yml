@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  qimenidc-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: qimenidc-app
+    restart: unless-stopped
+    ports:
+      - "7555:8080"
+    depends_on:
+      - mysql
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./config:/app/config
+    networks:
+      - qimenidc-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: qimenidc-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=pve
+      - TZ=Asia/Shanghai
+    ports:
+      - "7554:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./SQL:/docker-entrypoint-initdb.d
+    networks:
+      - qimenidc-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+networks:
+  qimenidc-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local 

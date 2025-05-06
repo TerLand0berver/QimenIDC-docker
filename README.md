@@ -97,6 +97,47 @@ QimenIDC 使用 Gradle 进行构建，并且需要在 JDK 17 环境下运行。
 
 你可以在项目根目录下的/build/lib找到输出的jar。
 
+### Docker部署（新增）
+
+现在QimenIDC支持使用Docker进行快速部署，无需手动安装Java和MySQL环境。
+
+#### 前置要求
+
+- [Docker](https://www.docker.com/products/docker-desktop/) 20.10+
+- [Docker Compose](https://docs.docker.com/compose/install/) 2.0+
+
+#### 一键部署
+
+我们提供了一键部署脚本，可以自动构建项目并启动Docker容器：
+
+```bash
+# 给脚本添加执行权限
+chmod +x docker-run.sh
+
+# 运行一键部署脚本
+./docker-run.sh
+```
+
+服务启动后可通过以下地址访问：
+- QimenIDC服务: http://localhost:7555
+- MySQL数据库: localhost:7554
+
+#### 手动部署
+
+如果您需要手动部署，可以按照以下步骤操作：
+
+1. 构建项目
+   ```bash
+   ./gradlew build
+   ```
+
+2. 启动Docker容器
+   ```bash
+   docker-compose up -d
+   ```
+
+更多详细信息，请参考[Docker部署指南](./DOCKER-INSTALL.md)。
+
 ### 主控部署
 
 请将config目录与jar包放在同一目录下。
