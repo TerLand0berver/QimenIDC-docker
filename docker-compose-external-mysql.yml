@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  qimenidc-app:
+    image: teraccc/qimenidc-server:latest
+    container_name: qimenidc-app
+    restart: unless-stopped
+    ports:
+      - "7555:8080"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./config:/app/config
+    networks:
+      - qimenidc-network
+
+networks:
+  qimenidc-network:
+    driver: bridge 

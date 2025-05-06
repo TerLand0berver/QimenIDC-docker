@@ -28,6 +28,42 @@ docker pull teraccc/qimenidc-server:latest
 docker pull teraccc/qimenidc-server:v1.0.0
 ```
 
+### 使用docker-compose一键部署
+
+我们提供了docker-compose配置文件，您可以直接使用以下命令来启动QimenIDC：
+
+```bash
+# 克隆项目仓库
+git clone https://github.com/TerLand0berver/QimenIDC-docker.git
+cd QimenIDC-docker
+
+# 启动服务
+docker-compose up -d
+```
+
+部署成功后，可通过以下地址访问服务：
+- QimenIDC管理界面: http://localhost:7555
+- MySQL数据库: localhost:7554
+
+### 使用外部MySQL数据库
+
+如果您已有MySQL数据库并希望仅部署QimenIDC应用容器，可以使用以下配置：
+
+```bash
+# 克隆项目仓库
+git clone https://github.com/TerLand0berver/QimenIDC-docker.git
+cd QimenIDC-docker
+
+# 修改config/application-prod.yml中的数据库配置，指向您的外部MySQL数据库
+# 然后使用外部MySQL的配置启动服务
+docker-compose -f docker-compose-external-mysql.yml up -d
+```
+
+注意：使用外部MySQL时，请确保：
+1. 您的MySQL版本为5.7及以上
+2. 已创建名为qmenidc的数据库
+3. 应用配置文件中的数据库连接信息与您的外部MySQL一致
+
 ## 主要特性
 
 - **多云管理**：通过隐藏不同云服务商的数据模型和 API 差异，QimenIDC 提供了一套统一的 API，让用户能够像使用单一云平台一样访问多个云服务商。
