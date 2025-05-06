@@ -99,12 +99,36 @@ QimenIDC 使用 Gradle 进行构建，并且需要在 JDK 17 环境下运行。
 
 ### Docker部署（新增）
 
-现在QimenIDC支持使用Docker进行快速部署，无需手动安装Java和MySQL环境。
+现在QimenIDC支持使用Docker进行快速部署，无需手动安装Java和MySQL环境。这种部署方式特别适合希望快速体验系统或在生产环境中以容器方式运行的用户。
 
 #### 前置要求
 
 - [Docker](https://www.docker.com/products/docker-desktop/) 20.10+
 - [Docker Compose](https://docs.docker.com/compose/install/) 2.0+
+
+#### 获取源码
+
+通过Git克隆代码仓库：
+
+```bash
+git clone https://github.com/TerLand0berver/QimenIDC-docker.git
+cd QimenIDC-docker
+```
+
+#### 配置调整
+
+部署前可以根据需要调整以下配置：
+
+1. **端口配置**：
+   - 应用端口: 默认映射到主机的7555端口
+   - 数据库端口: 默认映射到主机的7554端口
+   - 可在`docker-compose.yml`文件中修改
+
+2. **数据库配置**：
+   - 默认用户名：root
+   - 默认密码：123456
+   - 默认数据库：pve
+   - 可在`docker-compose.yml`和`config/application-prod.yml`中修改
 
 #### 一键部署
 
@@ -118,23 +142,68 @@ chmod +x docker-run.sh
 ./docker-run.sh
 ```
 
-服务启动后可通过以下地址访问：
-- QimenIDC服务: http://localhost:7555
-- MySQL数据库: localhost:7554
+脚本会自动执行以下操作：
+1. 检查Docker和Docker Compose是否已安装
+2. 使用Gradle构建Java应用
+3. 使用Docker Compose启动容器
+4. 输出访问信息
 
-#### 手动部署
+#### 手动部署步骤
 
-如果您需要手动部署，可以按照以下步骤操作：
+如果您需要手动部署或了解部署流程的详细步骤，可以按照以下步骤操作：
 
-1. 构建项目
+1. **构建项目**
    ```bash
+   # Linux
+   chmod +x gradlew
    ./gradlew build
+   
+   # Windows
+   .\gradlew.bat build
    ```
 
-2. 启动Docker容器
+2. **启动Docker容器**
    ```bash
    docker-compose up -d
    ```
+
+3. **查看容器状态**
+   ```bash
+   docker-compose ps
+   ```
+
+4. **查看应用日志**
+   ```bash
+   docker-compose logs -f qimenidc-app
+   ```
+
+#### 服务访问
+
+部署成功后，可通过以下地址访问服务：
+- **QimenIDC管理界面**: http://localhost:7555
+- **MySQL数据库**: localhost:7554
+
+#### 常用操作命令
+
+- **启动服务**：`docker-compose up -d`
+- **停止服务**：`docker-compose down`
+- **重启服务**：`docker-compose restart`
+- **查看日志**：`docker-compose logs -f`
+- **进入容器**：`docker-compose exec qimenidc-app /bin/bash`
+
+#### 数据持久化
+
+数据持久化已配置，包括：
+- MySQL数据存储在Docker卷`mysql-data`中
+- 配置文件通过挂载主机目录实现修改和持久化
+
+#### 生产环境部署建议
+
+对于生产环境，建议额外注意：
+1. 修改默认的数据库密码
+2. 配置反向代理和HTTPS
+3. 根据实际需求调整容器资源限制
+4. 设置Docker和主机的自动启动
 
 更多详细信息，请参考[Docker部署指南](./DOCKER-INSTALL.md)。
 
